@@ -80,7 +80,7 @@ class ContentFilter:
         return len(detected_topics) > 0, list(detected_topics)
 
 class BlueskyBot:
-    def __init__(self, list_uri, username, password, check_interval=60):
+    def __init__(self, check_interval=60):
         self.list_uri = os.getenv('LIST_URI')
         self.username = os.getenv('BLUESKY_USERNAME')
         self.password = os.getenv('BLUESKY_PASSWORD')
@@ -90,7 +90,8 @@ class BlueskyBot:
         self.replied_posts_file = 'replied_posts.json'
         self.replied_posts = self.load_replied_posts()
         self.client = Client()
-        self.client.login(username, password)
+        # Fix: Use self.username and self.password instead of username and password
+        self.client.login(self.username, self.password)
         self.content_filter = ContentFilter()
 
     def load_replied_posts(self):
